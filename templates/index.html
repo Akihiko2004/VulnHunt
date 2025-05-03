@@ -1,0 +1,69 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VulnHunt - Scan Progress</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #status {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        #progress {
+            width: 100%;
+            height: 30px;
+            background: #eee;
+        }
+        #progress-bar {
+            height: 100%;
+            background: green;
+            width: 0%;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>VulnHunt - Web Vulnerability Scanner</h1>
+
+    <button id="start-scan-btn">Start Scan</button>
+
+    <div id="status"></div>
+    <div id="progress">
+        <div id="progress-bar"></div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#start-scan-btn').click(function() {
+                // Start scan when the button is clicked
+                $.get('/start_scan', function(response) {
+                    $('#status').html('Scan started...');
+                    updateStatus();
+                });
+            });
+
+            // Update scan status every 1 second
+            function updateStatus() {
+                setInterval(function() {
+                    $.get('/scan_status', function(response) {
+                        $('#status').html('Status: ' + response.status);
+                        $('#progress-bar').css('width', response.progress + '%');
+
+                        if (response.status === "Completed") {
+                            $('#status').html('Scan completed! Report: ' + response.report_file);
+                        }
+                    });
+                }, 1000);
+            }
+        });
+    </script>
+    
+</body>
+</html>

