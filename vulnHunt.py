@@ -7,7 +7,17 @@ from modules.header_checker import check as header_check
 from modules.dir_bruteforce import scan as dir_scan
 from modules.report_writer import save_report
 
+def print_banner():
+    try:
+        with open("banner.txt", "r", encoding="utf-8") as f:
+            print(f.read())
+    except FileNotFoundError:
+        print("Banner file not found. Please make sure banner.txt is in the same folder.")
+
 def main():
+    print_banner()
+    # Your tool's logic goes here
+    print("Starting VulnHunt...")
     parser = argparse.ArgumentParser(description='Advanced Web Vulnerability Scanner')
     parser.add_argument('--url', required=True, help='URL of the website to scan')
     parser.add_argument('--skip-sqli', action='store_true', help='Skip SQL Injection scan')
