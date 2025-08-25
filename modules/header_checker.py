@@ -11,7 +11,12 @@ required_headers = [
 ]
 
 def check(url):
-    results = [f"\n[Security Header Check] Target: {url}"]
+    """
+    Check for essential security headers.
+    Yields results live.
+    """
+    yield f"\n[Security Header Check] Target: {url}"
+
     try:
         response = requests.get(url, timeout=5)
         missing = []
@@ -23,15 +28,13 @@ def check(url):
         if missing:
             message = f"[!] Missing headers: {', '.join(missing)}"
             print(Fore.RED + message + Fore.RESET)
-            results.append(message)
+            yield message
         else:
             message = "[+] All essential security headers are present."
             print(Fore.GREEN + message + Fore.RESET)
-            results.append(message)
+            yield message
 
     except requests.exceptions.RequestException:
         error = "[!] Failed to connect to target for header check."
         print(Fore.RED + error + Fore.RESET)
-        results.append(error)
-
-    return results
+        yield error

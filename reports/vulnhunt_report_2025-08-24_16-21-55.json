@@ -1,0 +1,7 @@
+{
+    "scan_date": "2025-08-24_16-21-55",
+    "vulnerabilities": [
+        "[SQL Injection Test] Target: http://example.com",
+        "[+] No SQL Injection vulnerabilities found."
+    ]
+}

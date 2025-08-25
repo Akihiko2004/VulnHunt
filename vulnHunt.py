@@ -1,4 +1,3 @@
-import argparse
 import os
 import sys
 from modules.sql_injection import scan as sql_scan
@@ -14,37 +13,66 @@ def print_banner():
     except FileNotFoundError:
         print("Banner file not found. Please make sure banner.txt is in the same folder.")
 
+def get_url():
+    url = input("Enter target URL (e.g. http://example.com): ").strip()
+    if not url.startswith("http"):
+        print("[!] URL must start with http:// or https://")
+        return get_url()
+    return url
+
+def show_menu():
+    print("\nSelect one or more options (comma-separated):")
+    print("1. SQL Injection Scan")
+    print("2. XSS Scan")
+    print("3. Header Security Check")
+    print("4. Directory Bruteforce")
+    print("5. All (Full Scan)")
+    print("6. Exit")
+
+    choice = input("\nYour choice: ").strip()
+    return [c.strip() for c in choice.split(",")]
+
 def main():
     print_banner()
-    # Your tool's logic goes here
-    print("Starting VulnHunt...")
-    parser = argparse.ArgumentParser(description='Advanced Web Vulnerability Scanner')
-    parser.add_argument('--url', required=True, help='URL of the website to scan')
-    parser.add_argument('--skip-sqli', action='store_true', help='Skip SQL Injection scan')
-    parser.add_argument('--skip-xss', action='store_true', help='Skip XSS scan')
-    parser.add_argument('--skip-headers', action='store_true', help='Skip Header security scan')
-    parser.add_argument('--brute', action='store_true', help='Enable directory brute-forcing')
-    args = parser.parse_args()
+    url = get_url()
 
-    results = []
+    while True:
+        selected_options = show_menu()
+        results = []
 
-    if not args.skip_sqli:
-        results.extend(sql_scan(args.url))
-    
-    if not args.skip_xss:
-        results.extend(xss_scan(args.url))
+        if '6' in selected_options:
+            print("Goodbye!")
+            sys.exit(0)
 
-    if not args.skip_headers:
-        results.extend(header_check(args.url))
+        if '5' in selected_options:
+            selected_options = ['1', '2', '3', '4']  # Full scan
 
-    if args.brute:
-        brute_results = dir_scan(args.url)
-        if brute_results:
-            results.append(f"\n[+] Found directories:\n")
-            results.extend(brute_results)
-    
-    report_filename = save_report(results)
-    print(f"[+] Report saved to: {report_filename}")
+        if '1' in selected_options:
+            print("\n[+] Starting SQL Injection Scan...")
+            results.extend(sql_scan(url))
+
+        if '2' in selected_options:
+            print("\n[+] Starting XSS Scan...")
+            results.extend(xss_scan(url))
+
+        if '3' in selected_options:
+            print("\n[+] Checking Security Headers...")
+            results.extend(header_check(url))
+
+        if '4' in selected_options:
+            print("\n[+] Starting Directory Bruteforce...")
+            dirs = dir_scan(url)
+            if dirs:
+                results.append("\n[+] Found Directories:\n")
+                results.extend(dirs)
+
+        if results:
+            report_filename = save_report(results)
+            print(f"\n[+] Scan complete. Report saved to: {report_filename}")
+        else:
+            print("\n[-] No scan performed or no results.")
+
+        input("\nPress Enter to scan again or Ctrl+C to exit...")
 
 if __name__ == "__main__":
     main()
