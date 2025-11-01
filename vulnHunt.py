@@ -19,7 +19,7 @@ init(autoreset=True)
 class VulnHunt:
     def __init__(self):
         self.version = "1.0.0"
-        self.author = "VulnHunt Team"
+        self.author = "Akihiko2004"
         self.banner = f"""
 {Fore.RED}
 ██╗   ██╗██╗   ██╗██╗     ███╗   ██╗██╗  ██╗██╗   ██╗███╗   ██╗████████╗
