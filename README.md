@@ -34,7 +34,65 @@ git clone https://github.com/yourusername/vulnhunt.git
 cd vulnhunt
 
 # Run the installation script
-sudo ./install.sh
+if [ -f install.sh ]; then
+  sudo chmod +x install.sh
+  echo "Running install.sh..."
+  sudo ./install.sh || echo "install.sh finished (or returned non-zero)."
+else
+  echo "No install.sh found in $(pwd) — skipping installer."
+fi
+
+if [ -f vulnHunt.py ]; then
+  # add executable bit
+  chmod +x vulnHunt.py
+
+  # check for shebang
+  head -n1 vulnHunt.py | grep -q '^#!' || {
+    echo "No shebang found in vulnHunt.py — creating wrapper instead of modifying file."
+    # create wrapper at /usr/local/bin/vulnhunt that calls python3 with the script
+    sudo tee /usr/local/bin/vulnhunt > /dev/null <<'EOF'
+#!/usr/bin/env bash
+python3 ~/vulnhunt/vulnHunt.py "$@"
+EOF
+    sudo chmod +x /usr/local/bin/vulnhunt
+    echo "Wrapper created at /usr/local/bin/vulnhunt -> python3 ~/vulnhunt/vulnHunt.py"
+  }
+
+if [ -f vulnHunt.py ]; then
+  # add executable bit
+  chmod +x vulnHunt.py
+
+  # check for shebang
+  head -n1 vulnHunt.py | grep -q '^#!' || {
+    echo "No shebang found in vulnHunt.py — creating wrapper instead of modifying file."
+    # create wrapper at /usr/local/bin/vulnhunt that calls python3 with the script
+    sudo tee /usr/local/bin/vulnhunt > /dev/null <<'EOF'
+#!/usr/bin/env bash
+python3 ~/vulnhunt/vulnHunt.py "$@"
+EOF
+    sudo chmod +x /usr/local/bin/vulnhunt
+    echo "Wrapper created at /usr/local/bin/vulnhunt -> python3 ~/vulnhunt/vulnHunt.py"
+  }
+
+  # If vulnHunt.py already has shebang we create symlink directly
+  head -n1 vulnHunt.py | grep -q '^#!' && {
+    # create symlink pointing to the repo script (absolute path ensures it works)
+    sudo ln -sf "$(pwd)/vulnHunt.py" /usr/local/bin/vulnhunt
+    sudo chmod +x /usr/local/bin/vulnhunt
+    echo "Symlink created: /usr/local/bin/vulnhunt -> $(pwd)/vulnHunt.py"
+  }
+else
+  echo "vulnHunt.py not found in $(pwd). Check the repository contents."
+  exit 1
+fi
+
+echo "Which vulnhunt binary will be used:"
+command -v vulnhunt || true
+echo "Attempting to run 'vulnhunt --help' (or run 'vulnhunt' if no --help):"
+vulnhunt --help 2>/dev/null || vulnhunt 2>/dev/null || echo "Could not run 'vulnhunt' — check output above."
+
+echo "Fallback test: run directly with python3:"
+python3 "$(pwd)/vulnHunt.py" --help 2>/dev/null || python3 "$(pwd)/vulnHunt.py" || echo "Fallback run failed."
 ```
 
 ### # Method 2 — Manual
