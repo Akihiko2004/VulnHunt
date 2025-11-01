@@ -30,7 +30,7 @@ VulnHunt is an all-in-one penetration testing framework that integrates multiple
 ### # Method 1: Automated Installation (Recommended)
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/vulnhunt.git
+git clone https://github.com/akihiko2004/vulnhunt.git
 cd vulnhunt
 
 # Run the installation script
@@ -314,7 +314,7 @@ We welcome contributions to VulnHunt! Please follow these guidelines:
 
 ## Development setup
 ```bash
-git clone https://github.com/yourusername/vulnhunt.git
+git clone https://github.com/akihiko2004/vulnhunt.git
 cd vulnhunt
 python3 -m venv venv
 source venv/bin/activate
