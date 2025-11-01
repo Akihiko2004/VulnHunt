@@ -277,13 +277,6 @@ Options
 
 - **Formats** : JSON (machine), Text (human), HTML (web)
 
-## 🔄 Maintenance
-### # Update
-sudo /opt/vulnhunt/update.sh
-
-### # Uninstall
-sudo /opt/vulnhunt/uninstall.sh
-
 ## 🛡️ Legal & Ethical Usage
 
 - VulnHunt should only be used on systems you own or have explicit written permission to test. Unauthorized use of this tool may violate local, state, and federal laws.
