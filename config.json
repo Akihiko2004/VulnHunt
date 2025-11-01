@@ -1,0 +1,22 @@
+{
+    "version": "1.0.0",
+    "author": "Akihiko2004",
+    "output_dir": "/opt/vulnhunt/output",
+    "log_dir": "/opt/vulnhunt/logs",
+    "wordlists": {
+        "common": "/usr/share/wordlists/dirb/common.txt",
+        "rockyou": "/usr/share/wordlists/rockyou.txt",
+        "seclists": "/usr/share/seclists"
+    },
+    "tools": {
+        "nmap": "/usr/bin/nmap",
+        "sqlmap": "/usr/bin/sqlmap",
+        "metasploit": "/usr/bin/msfconsole",
+        "hydra": "/usr/bin/hydra"
+    },
+    "settings": {
+        "auto_update": true,
+        "log_level": "INFO",
+        "color_output": true
+    }
+}
